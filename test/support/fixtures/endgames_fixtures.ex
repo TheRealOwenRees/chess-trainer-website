@@ -15,7 +15,7 @@ defmodule ChessTrainer.EndgamesFixtures do
         key: "some key",
         message: "some message",
         notes: "some notes",
-        result: "some result"
+        result: :draw
       })
       |> ChessTrainer.Endgames.create_endgame()
 

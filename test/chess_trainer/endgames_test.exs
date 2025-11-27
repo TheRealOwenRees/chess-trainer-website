@@ -21,11 +21,17 @@ defmodule ChessTrainer.EndgamesTest do
     end
 
     test "create_endgame/1 with valid data creates a endgame" do
-      valid_attrs = %{message: "some message", result: "some result", key: "some key", fen: "some fen", notes: "some notes"}
+      valid_attrs = %{
+        message: "some message",
+        result: :draw,
+        key: "some key",
+        fen: "some fen",
+        notes: "some notes"
+      }
 
       assert {:ok, %Endgame{} = endgame} = Endgames.create_endgame(valid_attrs)
       assert endgame.message == "some message"
-      assert endgame.result == "some result"
+      assert endgame.result == :draw
       assert endgame.key == "some key"
       assert endgame.fen == "some fen"
       assert endgame.notes == "some notes"
@@ -37,11 +43,18 @@ defmodule ChessTrainer.EndgamesTest do
 
     test "update_endgame/2 with valid data updates the endgame" do
       endgame = endgame_fixture()
-      update_attrs = %{message: "some updated message", result: "some updated result", key: "some updated key", fen: "some updated fen", notes: "some updated notes"}
+
+      update_attrs = %{
+        message: "some updated message",
+        result: :win,
+        key: "some updated key",
+        fen: "some updated fen",
+        notes: "some updated notes"
+      }
 
       assert {:ok, %Endgame{} = endgame} = Endgames.update_endgame(endgame, update_attrs)
       assert endgame.message == "some updated message"
-      assert endgame.result == "some updated result"
+      assert endgame.result == :win
       assert endgame.key == "some updated key"
       assert endgame.fen == "some updated fen"
       assert endgame.notes == "some updated notes"

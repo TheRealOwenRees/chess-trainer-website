@@ -20,11 +20,9 @@ defmodule ChessTrainerWeb.Router do
     get "/", PageController, :home
 
     live "/endgames", EndgameLive.Index, :index
-    live "/endgames/new", EndgameLive.Index, :new
-    live "/endgames/:id/edit", EndgameLive.Index, :edit
-
+    live "/endgames/new", EndgameLive.Form, :new
     live "/endgames/:id", EndgameLive.Show, :show
-    live "/endgames/:id/show/edit", EndgameLive.Show, :edit
+    live "/endgames/:id/edit", EndgameLive.Form, :edit
   end
 
   # Other scopes may use custom stacks.

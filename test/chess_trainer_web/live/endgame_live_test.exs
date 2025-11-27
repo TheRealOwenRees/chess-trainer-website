@@ -4,8 +4,20 @@ defmodule ChessTrainerWeb.EndgameLiveTest do
   import Phoenix.LiveViewTest
   import ChessTrainer.EndgamesFixtures
 
-  @create_attrs %{message: "some message", result: "some result", key: "some key", fen: "some fen", notes: "some notes"}
-  @update_attrs %{message: "some updated message", result: "some updated result", key: "some updated key", fen: "some updated fen", notes: "some updated notes"}
+  @create_attrs %{
+    message: "some message",
+    result: :draw,
+    key: "some key",
+    fen: "some fen",
+    notes: "some notes"
+  }
+  @update_attrs %{
+    message: "some updated message",
+    result: :win,
+    key: "some updated key",
+    fen: "some updated fen",
+    notes: "some updated notes"
+  }
   @invalid_attrs %{message: nil, result: nil, key: nil, fen: nil, notes: nil}
   defp create_endgame(_) do
     endgame = endgame_fixture()
