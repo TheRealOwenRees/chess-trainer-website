@@ -23,7 +23,6 @@ defmodule ChessTrainer.Endgames.Tablebase.Parser do
   end
 
   @spec tablebase_response(String.t()) :: {:ok, Tablebase.t()} | {:error, term()}
-  # TODO check cache/ets first then check lichess api
   defp tablebase_response(fen) do
     response =
       fen

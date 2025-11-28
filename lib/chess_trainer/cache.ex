@@ -71,7 +71,7 @@ defmodule ChessTrainer.Cache do
 
   @impl true
   def handle_cast(:maybe_evict, table) do
-    maybe_evict_oldest(table)
+    __MODULE__.Evict.maybe_evict_oldest(table, @max_size)
     {:noreply, table}
   end
 
@@ -97,27 +97,4 @@ defmodule ChessTrainer.Cache do
   end
 
   defp create_table(table), do: :ets.new(table, [:named_table, :public, :set])
-
-  # LRU cache - O(n) time, not efficient
-  defp maybe_evict_oldest(table) do
-    if :ets.info(table, :size) > @max_size do
-      oldest =
-        :ets.foldl(
-          fn {k, _v, t}, acc ->
-            case acc do
-              nil -> {k, t}
-              {_, oldest_t} when t < oldest_t -> {k, t}
-              _ -> acc
-            end
-          end,
-          nil,
-          table
-        )
-
-      case oldest do
-        {oldest_key, _} -> :ets.delete(table, oldest_key)
-        _ -> :ok
-      end
-    end
-  end
 end
