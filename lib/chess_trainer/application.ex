@@ -16,7 +16,8 @@ defmodule ChessTrainer.Application do
       # {ChessTrainer.Worker, arg},
       # Start to serve requests, typically the last entry
       ChessTrainerWeb.Endpoint,
-      {Registry, keys: :unique, name: ChessTrainer.CacheRegistry}
+      {Registry, keys: :unique, name: ChessTrainer.CacheRegistry},
+      {ChessTrainer.Cache, :tablebase}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

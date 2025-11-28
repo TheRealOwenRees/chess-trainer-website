@@ -7,12 +7,13 @@ defmodule ChessTrainer.Endgames.Tablebase.Cache do
 
   @table :tablebase
 
-  def start, do: Cache.start_link(@table)
-
   def put(fen, tablebase), do: Cache.put(@table, fen, tablebase)
 
   def get(fen), do: Cache.get(@table, fen)
 
-  # TODO start link if not started when get/put is called
-  # ensure_cache_exists()
+  def delete(fen), do: Cache.delete(@table, fen)
+
+  def show, do: Cache.show(@table)
+
+  def size, do: Cache.size(@table)
 end

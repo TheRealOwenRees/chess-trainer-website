@@ -33,18 +33,25 @@ defmodule ChessTrainer.Endgames.Tablebase do
           | {:error, :invalid_endgame}
           | {:error, term()}
   def new(fen) do
-    case Tablebase.Parser.from_fen(fen) do
-      {:error, reason} ->
-        {:error, reason}
+    case Tablebase.Cache.get(fen) do
+      {_fen, tablebase} ->
+        {:cache, tablebase}
 
-      {:cooldown, remaining_ms} ->
-        {:cooldown, remaining_ms}
+      _ ->
+        case Tablebase.Parser.from_fen(fen) do
+          {:error, reason} ->
+            {:error, reason}
 
-      {:ok, tablebase} when tablebase.category == :unknown ->
-        {:error, :invalid_endgame}
+          {:cooldown, remaining_ms} ->
+            {:cooldown, remaining_ms}
 
-      {:ok, tablebase} ->
-        {:ok, tablebase}
+          {:ok, tablebase} when tablebase.category == :unknown ->
+            {:error, :invalid_endgame}
+
+          {:ok, tablebase} ->
+            Tablebase.Cache.put(fen, tablebase)
+            {:ok, tablebase}
+        end
     end
   end
 end
