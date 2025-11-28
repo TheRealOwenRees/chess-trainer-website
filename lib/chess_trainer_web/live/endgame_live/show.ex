@@ -2,9 +2,23 @@ defmodule ChessTrainerWeb.EndgameLive.Show do
   use ChessTrainerWeb, :live_view
 
   alias ChessTrainer.Endgames
+  alias ChessTrainer.Game
+
+  import ChessTrainerWeb.Board.BoardComponent
 
   @impl true
   def render(assigns) do
+    game =
+      case Game.game_from_fen(assigns.endgame.fen, :endgame) do
+        {:ok, g} -> g
+        {:error, _} -> nil
+      end
+
+    assigns =
+      assigns
+      |> assign(:game, game)
+      |> assign(:game_type, :endgame)
+
     ~H"""
     <Layouts.app flash={@flash}>
       <.header>
@@ -19,6 +33,8 @@ defmodule ChessTrainerWeb.EndgameLive.Show do
           </.button>
         </:actions>
       </.header>
+
+      <.board game={@game} myself="board" />
 
       <.list>
         <:item title="Fen">{@endgame.fen}</:item>
