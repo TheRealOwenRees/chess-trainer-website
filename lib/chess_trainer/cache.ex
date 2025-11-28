@@ -9,10 +9,9 @@ defmodule ChessTrainer.Cache do
 
   use GenServer
 
-  @max_size 2
+  @max_size 1000
 
-  # TODO LRU / max size
-  # backup ets to dets and seed from backup
+  # TODO backup ets to dets and seed from backup
 
   def start_link(table), do: GenServer.start_link(__MODULE__, table, name: via_tuple(table))
   def put(table, key, value), do: GenServer.call(via_tuple(table), {:put, key, value})
@@ -21,9 +20,7 @@ defmodule ChessTrainer.Cache do
 
   def show(table) do
     ensure_table(table)
-
     :ets.tab2list(table)
-    |> IO.inspect(label: "Cache contents")
   end
 
   def size(table), do: :ets.info(table, :size)
@@ -39,6 +36,9 @@ defmodule ChessTrainer.Cache do
     ensure_table(table)
     timestamp = System.system_time(:millisecond)
     :ets.insert(table, {key, value, timestamp})
+
+    GenServer.cast(self(), :maybe_evict)
+
     {:reply, :ok, table}
   end
 
@@ -63,6 +63,12 @@ defmodule ChessTrainer.Cache do
     {:reply, :ok, table}
   end
 
+  @impl true
+  def handle_cast(:maybe_evict, table) do
+    maybe_evict_oldest(table)
+    {:noreply, table}
+  end
+
   defp via_tuple(table), do: {:via, Registry, {ChessTrainer.CacheRegistry, table}}
 
   defp ensure_table(table) do
@@ -73,4 +79,27 @@ defmodule ChessTrainer.Cache do
   end
 
   defp create_table(table), do: :ets.new(table, [:named_table, :public, :set])
+
+  # LRU cache - O(n) time, not efficient
+  defp maybe_evict_oldest(table) do
+    if :ets.info(table, :size) > @max_size do
+      oldest =
+        :ets.foldl(
+          fn {k, _v, t}, acc ->
+            case acc do
+              nil -> {k, t}
+              {_, oldest_t} when t < oldest_t -> {k, t}
+              _ -> acc
+            end
+          end,
+          nil,
+          table
+        )
+
+      case oldest do
+        {oldest_key, _} -> :ets.delete(table, oldest_key)
+        _ -> :ok
+      end
+    end
+  end
 end
