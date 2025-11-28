@@ -18,8 +18,7 @@ defmodule ChessTrainer.Endgames.Tablebase.Parser do
   def from_fen(fen) do
     case lichess_check_cooldown() do
       {:ok, 0} -> tablebase_response(fen)
-      {:ok, remaining_ms} -> {:cooldown, remaining_ms}
-      {:error, reason} -> {:error, reason}
+      {:cooldown, remaining_ms} -> {:cooldown, remaining_ms}
     end
   end
 
@@ -39,7 +38,8 @@ defmodule ChessTrainer.Endgames.Tablebase.Parser do
     end
   end
 
-  defp from_map(map) do
+  # exposed for testing
+  def from_map(map) do
     {:ok,
      %Tablebase{
        category: map["category"] |> String.to_atom(),
@@ -53,7 +53,7 @@ defmodule ChessTrainer.Endgames.Tablebase.Parser do
      }}
   end
 
-  def moves_from_map(map) do
+  defp moves_from_map(map) do
     %Tablebase.Move{
       category: map["category"] |> String.to_atom(),
       checkmate: map["checkmate"],
