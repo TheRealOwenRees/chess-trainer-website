@@ -10,13 +10,13 @@ defmodule ChessTrainer.Cache do
   use GenServer
 
   @max_size 1000
-
-  # TODO backup ets to dets and seed from backup
+  @backup_interval_minutes 60
 
   def start_link(table), do: GenServer.start_link(__MODULE__, table, name: via_tuple(table))
   def put(table, key, value), do: GenServer.call(via_tuple(table), {:put, key, value})
   def get(table, key), do: GenServer.call(via_tuple(table), {:get, key})
   def delete(table, key), do: GenServer.call(via_tuple(table), {:delete, key})
+  def backup(table), do: GenServer.cast(via_tuple(table), :backup)
 
   def show(table) do
     ensure_table(table)
@@ -28,6 +28,12 @@ defmodule ChessTrainer.Cache do
   @impl true
   def init(table) do
     create_table(table)
+
+    __MODULE__.Persist.restore(table)
+
+    # backup cache intervalically
+    :timer.send_interval(:timer.minutes(@backup_interval_minutes), :backup)
+
     {:ok, table}
   end
 
@@ -66,6 +72,18 @@ defmodule ChessTrainer.Cache do
   @impl true
   def handle_cast(:maybe_evict, table) do
     maybe_evict_oldest(table)
+    {:noreply, table}
+  end
+
+  @impl true
+  def handle_cast(:backup, table) do
+    __MODULE__.Persist.backup(table)
+    {:noreply, table}
+  end
+
+  @impl true
+  def handle_info(:backup, table) do
+    GenServer.cast(self(), :backup)
     {:noreply, table}
   end
 

@@ -12,8 +12,6 @@ defmodule ChessTrainer.Endgames.Tablebase.Cache do
   def get(fen), do: Cache.get(@table, fen)
 
   def delete(fen), do: Cache.delete(@table, fen)
-
   def show, do: Cache.show(@table)
-
   def size, do: Cache.size(@table)
 end
