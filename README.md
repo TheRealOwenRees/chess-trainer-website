@@ -8,6 +8,8 @@
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
+[`localhost:4000/endgames`](http://localhost:4000/endgames) is where we are currently focused on.
+
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
 ## Static analysis and code checks
