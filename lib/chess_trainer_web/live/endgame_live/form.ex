@@ -18,7 +18,16 @@ defmodule ChessTrainerWeb.EndgameLive.Form do
         <.input field={@form[:key]} type="text" label="Key" />
         <.input field={@form[:message]} type="textarea" label="Message" />
         <.input field={@form[:notes]} type="textarea" label="Notes" />
-        <.input field={@form[:result]} type="text" label="Result" />
+        <.input
+          field={@form[:result]}
+          type="select"
+          options={[
+            {"Win", :win},
+            {"Draw", :draw},
+            {"Loss", :loss}
+          ]}
+          label="Result"
+        />
         <footer>
           <.button phx-disable-with="Saving..." variant="primary">Save Endgame</.button>
           <.button navigate={return_path(@return_to, @endgame)}>Cancel</.button>
