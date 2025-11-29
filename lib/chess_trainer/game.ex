@@ -7,13 +7,13 @@ defmodule ChessTrainer.Game do
   @type game_type :: :endgame
   @type square :: {atom(), pos_integer()}
   @type move :: {square, square}
-  @type orientation :: :white | :black
+  @type colors :: :white | :black
   @type game_state :: :continue | :loss | :draw
 
   @type t :: %__MODULE__{
-          player_color: orientation,
+          player_color: colors,
           board: map(),
-          active_color: :white | :black,
+          active_color: colors,
           castling: list(),
           en_passant: term() | nil,
           moves: list(),
@@ -23,7 +23,7 @@ defmodule ChessTrainer.Game do
           check: term() | nil,
           result: term() | nil,
           pgn: String.t() | nil,
-          orientation: orientation,
+          orientation: colors,
           move_from_square: square,
           move_to_square: square,
           game_type: game_type,
@@ -33,8 +33,8 @@ defmodule ChessTrainer.Game do
         }
 
   defstruct board: %{},
-            player_color: nil,
-            active_color: nil,
+            player_color: :white,
+            active_color: :white,
             castling: [],
             en_passant: nil,
             moves: [],
@@ -44,7 +44,7 @@ defmodule ChessTrainer.Game do
             check: nil,
             result: nil,
             pgn: nil,
-            orientation: nil,
+            orientation: :white,
             move_from_square: nil,
             move_to_square: nil,
             game_type: nil,
@@ -70,7 +70,7 @@ defmodule ChessTrainer.Game do
         check: chex_game.check,
         result: chex_game.result,
         pgn: chex_game.pgn,
-        orientation: nil,
+        orientation: chex_game.active_color,
         move_from_square: nil,
         move_to_square: nil,
         game_type: game_type,
@@ -84,13 +84,9 @@ defmodule ChessTrainer.Game do
           end
       }
 
-      {:ok, %{game | orientation: board_orientation(game, game.orientation)}}
+      {:ok, game}
     rescue
       MatchError -> {:error, :invalid_fen}
     end
   end
-
-  @spec board_orientation(t(), orientation | nil) :: orientation
-  defp board_orientation(game, orientation) when is_nil(orientation), do: game.active_color
-  defp board_orientation(_game, orientation), do: orientation
 end
