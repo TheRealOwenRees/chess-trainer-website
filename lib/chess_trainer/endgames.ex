@@ -68,6 +68,9 @@ defmodule ChessTrainer.Endgames do
 
   """
   def update_endgame(%Endgame{} = endgame, attrs) do
+    # ignore fen on update
+    attrs = Map.delete(attrs, "fen")
+
     endgame
     |> Endgame.changeset(attrs)
     |> Repo.update()
