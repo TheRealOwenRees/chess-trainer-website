@@ -15,7 +15,7 @@
 ## 📦 Medium Priority
 
 - [x] Editing an endgame should not allow us to edit the FEN.
-- [ ] Result when making new or editing endgame should be a dropdown containing win/draw/loss
+- [x] Result when making new or editing endgame should be a dropdown containing win/draw/loss
 - [ ] Key is a specific format eg KvKQ. Can we enforce this rule?
 
 ## 🛠️ Low Priority
