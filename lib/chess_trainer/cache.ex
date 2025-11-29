@@ -27,14 +27,15 @@ defmodule ChessTrainer.Cache do
 
   @impl true
   def init(table) do
+    {:ok, table, {:continue, :restore_and_backup}}
+  end
+
+  @impl true
+  def handle_continue(:restore_and_backup, table) do
     create_table(table)
-
     __MODULE__.Persist.restore(table)
-
-    # backup cache intervalically
     :timer.send_interval(:timer.minutes(@backup_interval_minutes), :backup)
-
-    {:ok, table}
+    {:noreply, table}
   end
 
   @impl true
