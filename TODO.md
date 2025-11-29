@@ -2,7 +2,7 @@
 
 ## 🚀 High Priority
 
-- [ ] Spec fixes in `game.ex`.
+- [x] Spec fixes in `game.ex`.
 - [ ] Spec fixes in `show.ex`.
 - [ ] Add tags to endgame.
   - Choose from (searchable) existing tags
