@@ -4,6 +4,10 @@
 
 - [ ] Spec fixes in `game.ex`.
 - [ ] Spec fixes in `show.ex`.
+- [ ] Add tags to endgame.
+  - Choose from (searchable) existing tags
+  - add new tag if not available
+  - can select multiple tags
 - [ ] Create page for interactive endgame play:
   - Larger board - LiveView
   - List of moves made
