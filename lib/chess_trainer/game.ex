@@ -53,6 +53,31 @@ defmodule ChessTrainer.Game do
             tablebase: nil,
             game_state: :continue
 
+  @doc """
+  Builds a `%ChessTrainer.Game{}` from a FEN string.
+
+  On success, returns `{:ok, game}` with the parsed board state.
+
+  If the FEN string is invalid, `Chex.Parser.FEN.parse/1` raises a
+  `MatchError`. This function rescues that exception and returns
+  `{:error, :invalid_fen, game}`, where `game` is a fallback position
+  containing only kings.
+
+  This is a bad implementation in the Chex libary and should be fixed at our fork:
+  https://github.com/therealowenrees/chex
+
+  We should return something like{:ok, game} | {:error | :invalid_fen}
+
+  ## Examples
+
+      iex> ChessTrainer.Game.game_from_fen("valid fen", :endgame)
+      {:ok, %ChessTrainer.Game{}}
+
+      iex> ChessTrainer.Game.game_from_fen("invalid fen", :endgame)
+      {:error, :invalid_fen, %ChessTrainer.Game{}}
+
+  """
+  @dialyzer {:nowarn_function, game_from_fen: 2}
   @spec game_from_fen(String.t(), game_type()) :: {:ok, t()} | {:error, :invalid_fen, t()}
   def game_from_fen(fen, game_type) do
     try do
@@ -87,7 +112,7 @@ defmodule ChessTrainer.Game do
 
       {:ok, game}
     rescue
-      # if and :invalid_fen error is raised, then return a game with only kings on the board
+      # if a MatchError error is raised, then return a game with only kings on the board
       MatchError ->
         game = %__MODULE__{
           board: %{
