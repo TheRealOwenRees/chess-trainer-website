@@ -1,4 +1,8 @@
 defmodule ChessTrainerWeb.Board.BoardComponent do
+  @moduledoc """
+  Chess board component
+  """
+
   use Phoenix.Component
   import ChessTrainerWeb.Board.SquareComponent
 
