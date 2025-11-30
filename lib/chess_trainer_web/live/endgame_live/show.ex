@@ -11,8 +11,11 @@ defmodule ChessTrainerWeb.EndgameLive.Show do
     game =
       case Game.game_from_fen(assigns.endgame.fen, :endgame) do
         {:ok, g} -> g
-        {:error, _} -> nil
+        {:error, :invalid_fen, g} -> g
       end
+
+    # TODO once we return {:error, :invalid_fen, game}, then put flash to show it is invalid
+    # write tests for this
 
     assigns =
       assigns

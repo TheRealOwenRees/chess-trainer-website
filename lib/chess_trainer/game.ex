@@ -9,6 +9,7 @@ defmodule ChessTrainer.Game do
   @type move :: {square, square}
   @type colors :: :white | :black
   @type game_state :: :continue | :loss | :draw
+  @type result :: :win | :draw | :loss
 
   @type t :: %__MODULE__{
           player_color: colors,
@@ -21,7 +22,7 @@ defmodule ChessTrainer.Game do
           fullmove_clock: non_neg_integer(),
           captures: list(),
           check: term() | nil,
-          result: term() | nil,
+          result: result,
           pgn: String.t() | nil,
           orientation: colors,
           move_from_square: square,
@@ -52,7 +53,7 @@ defmodule ChessTrainer.Game do
             tablebase: nil,
             game_state: :continue
 
-  @spec game_from_fen(String.t(), game_type()) :: {:ok, t()} | {:error, atom()}
+  @spec game_from_fen(String.t(), game_type()) :: {:ok, t()} | {:error, :invalid_fen, t()}
   def game_from_fen(fen, game_type) do
     try do
       {:ok, %Chex.Game{} = chex_game} = Chex.Parser.FEN.parse(fen)
@@ -86,7 +87,34 @@ defmodule ChessTrainer.Game do
 
       {:ok, game}
     rescue
-      MatchError -> {:error, :invalid_fen}
+      # if and :invalid_fen error is raised, then return a game with only kings on the board
+      MatchError ->
+        game = %__MODULE__{
+          board: %{
+            {:e, 1} => {:king, :white, {:e, 1}},
+            {:e, 8} => {:king, :black, {:e, 8}}
+          },
+          player_color: :white,
+          active_color: :white,
+          castling: [],
+          en_passant: nil,
+          moves: [],
+          halfmove_clock: 0,
+          fullmove_clock: 0,
+          captures: nil,
+          check: nil,
+          result: :draw,
+          pgn: nil,
+          orientation: :white,
+          move_from_square: nil,
+          move_to_square: nil,
+          game_type: :endgame,
+          fen: "4k3/8/8/8/8/8/8/4K3 w - - 0 1",
+          game_state: :draw,
+          tablebase: nil
+        }
+
+        {:error, :invalid_fen, game}
     end
   end
 end
