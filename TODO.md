@@ -2,9 +2,6 @@
 
 ## 🚀 High Priority
 
-- [x] Spec fixes in `game.ex`.
-- [ ] Spec fixes in `show.ex`.
-- [ ] Fix tests in `test/chess_trainer_web/live/endgame_live_test.exs`.
 - [ ] Add tags to endgame.
   - Choose from (searchable) existing tags
   - add new tag if not available
@@ -20,8 +17,6 @@
 
 ## 📦 Medium Priority
 
-- [x] Editing an endgame should not allow us to edit the FEN.
-- [x] Result when making new or editing endgame should be a dropdown containing win/draw/loss
 - [ ] Key is a specific format eg KvKQ. Can we enforce this rule?
 
 ## 🛠️ Low Priority
