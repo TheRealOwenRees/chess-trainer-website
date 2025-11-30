@@ -4,6 +4,7 @@
 
 - [x] Spec fixes in `game.ex`.
 - [ ] Spec fixes in `show.ex`.
+- [ ] Fix tests in `test/chess_trainer_web/live/endgame_live_test.exs`.
 - [ ] Add tags to endgame.
   - Choose from (searchable) existing tags
   - add new tag if not available
@@ -26,6 +27,7 @@
 ## 🛠️ Low Priority
 
 - [ ] Swap out custom cache in favour of CacheX. This might allow us to increase the size of the cache since dealing with LRU will be more efficient. Benchmark it.
+- [ ] Update GenServer tests to match pattern in Elixir Patterns book.
 
 ## 📚 Documentation
 
