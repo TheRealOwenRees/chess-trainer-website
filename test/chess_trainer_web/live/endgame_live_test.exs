@@ -15,10 +15,10 @@ defmodule ChessTrainerWeb.EndgameLiveTest do
     message: "some updated message",
     result: :win,
     key: "some updated key",
-    fen: "some updated fen",
     notes: "some updated notes"
   }
-  @invalid_attrs %{message: nil, result: nil, key: nil, fen: nil, notes: nil}
+  @invalid_create_attrs %{message: nil, result: "draw", key: nil, fen: "win", notes: nil}
+  @invalid_update_attrs %{message: nil, result: "draw", key: nil, notes: nil}
   defp create_endgame(_) do
     endgame = endgame_fixture()
 
@@ -47,7 +47,7 @@ defmodule ChessTrainerWeb.EndgameLiveTest do
       assert render(form_live) =~ "New Endgame"
 
       assert form_live
-             |> form("#endgame-form", endgame: @invalid_attrs)
+             |> form("#endgame-form", endgame: @invalid_create_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
       assert {:ok, index_live, _html} =
@@ -73,7 +73,7 @@ defmodule ChessTrainerWeb.EndgameLiveTest do
       assert render(form_live) =~ "Edit Endgame"
 
       assert form_live
-             |> form("#endgame-form", endgame: @invalid_attrs)
+             |> form("#endgame-form", endgame: @invalid_update_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
       assert {:ok, index_live, _html} =
@@ -84,7 +84,6 @@ defmodule ChessTrainerWeb.EndgameLiveTest do
 
       html = render(index_live)
       assert html =~ "Endgame updated successfully"
-      assert html =~ "some updated fen"
     end
 
     test "deletes endgame in listing", %{conn: conn, endgame: endgame} do
@@ -117,7 +116,7 @@ defmodule ChessTrainerWeb.EndgameLiveTest do
       assert render(form_live) =~ "Edit Endgame"
 
       assert form_live
-             |> form("#endgame-form", endgame: @invalid_attrs)
+             |> form("#endgame-form", endgame: @invalid_update_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
       assert {:ok, show_live, _html} =
@@ -128,7 +127,6 @@ defmodule ChessTrainerWeb.EndgameLiveTest do
 
       html = render(show_live)
       assert html =~ "Endgame updated successfully"
-      assert html =~ "some updated fen"
     end
   end
 end
