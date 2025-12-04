@@ -12,5 +12,7 @@ defmodule ChessTrainer.Repo.Migrations.CreateEndgames do
 
       timestamps(type: :utc_datetime)
     end
+
+    create unique_index(:endgames, [:fen])
   end
 end

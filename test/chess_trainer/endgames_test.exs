@@ -60,6 +60,22 @@ defmodule ChessTrainer.EndgamesTest do
       assert endgame.notes == "some updated notes"
     end
 
+    test "create_endgame/1 with existing FEN returns non-unique FEN error" do
+      valid_attrs = %{
+        message: "some duplicate message",
+        result: :draw,
+        key: "some duplicate key",
+        fen: "some duplicate fen",
+        notes: "some duplicate notes"
+      }
+
+      assert {:ok, %Endgame{} = endgame} = Endgames.create_endgame(valid_attrs)
+      assert endgame.fen == valid_attrs.fen
+
+      assert {:error, %Ecto.Changeset{} = changeset} = Endgames.create_endgame(valid_attrs)
+      assert changeset.valid? == false
+    end
+
     test "update_endgame/2 with invalid data returns error changeset" do
       endgame = endgame_fixture()
       assert {:error, %Ecto.Changeset{}} = Endgames.update_endgame(endgame, @invalid_attrs)
