@@ -18,6 +18,7 @@
 ## 📦 Medium Priority
 
 - [ ] Key is a specific format eg KvKQ. Can we enforce this rule?
+- [ ] Rating column for endgame - set at 1500 initially
 
 ## 🛠️ Low Priority
 

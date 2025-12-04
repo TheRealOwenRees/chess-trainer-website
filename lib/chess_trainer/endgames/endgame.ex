@@ -22,6 +22,6 @@ defmodule ChessTrainer.Endgames.Endgame do
   def changeset(endgame, attrs) do
     endgame
     |> cast(attrs, [:fen, :key, :message, :notes, :result])
-    |> validate_required([:fen, :key, :message, :notes, :result])
+    |> validate_required([:fen, :key, :message, :result])
   end
 end
