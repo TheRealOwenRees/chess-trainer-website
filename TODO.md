@@ -13,7 +13,6 @@
   - Flip board button
   - Move highlighting
   - opponent move auto-play - which move from moves list in tablebase? First? Random from all that are relevant?
-- [ ] Add player colour for endgame based on FEN, auto populating DB
 - [ ] Fix liveview tests for navigation
 - [ ] Fix endgame tests
 - [ ] Fix color for endgame tests
