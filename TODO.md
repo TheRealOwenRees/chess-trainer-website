@@ -20,13 +20,13 @@
 
 ## 📦 Medium Priority
 
-- [ ] Key is a specific format eg KvKQ. Can we enforce this rule?
 - [ ] basic password auth for admin
 
 ## 🛠️ Low Priority
 
 - [ ] Swap out custom cache in favour of CacheX. This might allow us to increase the size of the cache since dealing with LRU will be more efficient. Benchmark it.
 - [ ] Update GenServer tests to match pattern in Elixir Patterns book.
+- [ ] Increase test coverage
 
 ## 📚 Documentation
 
