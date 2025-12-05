@@ -16,6 +16,7 @@ defmodule ChessTrainerWeb.EndgameLive.Form do
       <.form for={@form} id="endgame-form" phx-change="validate" phx-submit="save">
         <.input field={@form[:fen]} type="text" label="Fen" disabled={@live_action == :edit} />
         <.input field={@form[:key]} type="text" label="Key" />
+        <.input field={@form[:rating]} type="number" label="Rating" />
         <.input field={@form[:message]} type="textarea" label="Message" />
         <.input field={@form[:notes]} type="textarea" label="Notes" />
         <.input

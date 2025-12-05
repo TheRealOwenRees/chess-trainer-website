@@ -23,6 +23,7 @@ defmodule ChessTrainerWeb.EndgameLive.Index do
       >
         <:col :let={{_id, endgame}} label="Fen">{endgame.fen}</:col>
         <:col :let={{_id, endgame}} label="Key">{endgame.key}</:col>
+        <:col :let={{_id, endgame}} label="Rating">{endgame.rating}</:col>
         <:col :let={{_id, endgame}} label="Message">{endgame.message}</:col>
         <:col :let={{_id, endgame}} label="Notes">{endgame.notes}</:col>
         <:col :let={{_id, endgame}} label="Result">{endgame.result}</:col>

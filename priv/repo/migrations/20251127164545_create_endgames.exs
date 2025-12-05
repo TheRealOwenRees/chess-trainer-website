@@ -9,6 +9,7 @@ defmodule ChessTrainer.Repo.Migrations.CreateEndgames do
       add :message, :text
       add :notes, :text
       add :result, :string
+      add :rating, :integer, default: 1500
 
       timestamps(type: :utc_datetime)
     end

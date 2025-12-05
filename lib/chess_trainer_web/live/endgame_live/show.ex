@@ -42,6 +42,7 @@ defmodule ChessTrainerWeb.EndgameLive.Show do
       <.list>
         <:item title="Fen">{@endgame.fen}</:item>
         <:item title="Key">{@endgame.key}</:item>
+        <:item title="Rating">{@endgame.rating}</:item>
         <:item title="Message">{@endgame.message}</:item>
         <:item title="Notes">{@endgame.notes}</:item>
         <:item title="Result">{@endgame.result}</:item>

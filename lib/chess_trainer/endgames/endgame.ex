@@ -14,6 +14,7 @@ defmodule ChessTrainer.Endgames.Endgame do
     field :message, :string
     field :notes, :string
     field :result, Ecto.Enum, values: [:win, :loss, :draw]
+    field :rating, :integer
 
     timestamps(type: :utc_datetime)
   end
@@ -21,8 +22,8 @@ defmodule ChessTrainer.Endgames.Endgame do
   @doc false
   def changeset(endgame, attrs) do
     endgame
-    |> cast(attrs, [:fen, :key, :message, :notes, :result])
-    |> validate_required([:fen, :key, :result])
+    |> cast(attrs, [:fen, :key, :message, :notes, :result, :rating])
+    |> validate_required([:fen, :key, :result, :rating])
     |> unique_constraint(:fen, message: "FEN already exists")
   end
 end
