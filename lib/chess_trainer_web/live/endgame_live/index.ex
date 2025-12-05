@@ -27,6 +27,8 @@ defmodule ChessTrainerWeb.EndgameLive.Index do
         <:col :let={{_id, endgame}} label="Message">{endgame.message}</:col>
         <:col :let={{_id, endgame}} label="Notes">{endgame.notes}</:col>
         <:col :let={{_id, endgame}} label="Result">{endgame.result}</:col>
+        <:col :let={{_id, endgame}} label="Attempted">{endgame.times_attempted}</:col>
+        <:col :let={{_id, endgame}} label="Solved">{endgame.times_solved}</:col>
         <:action :let={{_id, endgame}}>
           <div class="sr-only">
             <.link navigate={~p"/endgames/#{endgame}"}>Show</.link>

@@ -15,6 +15,9 @@ defmodule ChessTrainer.Endgames.Endgame do
     field :notes, :string
     field :result, Ecto.Enum, values: [:win, :loss, :draw]
     field :rating, :integer
+    field :rating_deviation, :integer
+    field :times_attempted, :integer
+    field :times_solved, :integer
 
     timestamps(type: :utc_datetime)
   end

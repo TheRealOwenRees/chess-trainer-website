@@ -46,6 +46,8 @@ defmodule ChessTrainerWeb.EndgameLive.Show do
         <:item title="Message">{@endgame.message}</:item>
         <:item title="Notes">{@endgame.notes}</:item>
         <:item title="Result">{@endgame.result}</:item>
+        <:item title="Attempted">{@endgame.times_attempted}</:item>
+        <:item title="Solved">{@endgame.times_solved}</:item>
       </.list>
     </Layouts.app>
     """

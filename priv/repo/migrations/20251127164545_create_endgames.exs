@@ -10,6 +10,9 @@ defmodule ChessTrainer.Repo.Migrations.CreateEndgames do
       add :notes, :text
       add :result, :string
       add :rating, :integer, default: 1500
+      add :rating_deviation, :integer, default: 350
+      add :times_attempted, :integer, default: 0
+      add :times_solved, :integer, default: 0
 
       timestamps(type: :utc_datetime)
     end
