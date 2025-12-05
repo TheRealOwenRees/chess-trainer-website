@@ -18,6 +18,10 @@ defmodule ChessTrainerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+  end
+
+  scope "/admin", ChessTrainerWeb do
+    pipe_through :browser
 
     live_session :endgames do
       live "/endgames", EndgameLive.Index, :index

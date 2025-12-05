@@ -29,20 +29,20 @@ defmodule ChessTrainerWeb.EndgameLiveTest do
     setup [:create_endgame]
 
     test "lists all endgames", %{conn: conn, endgame: endgame} do
-      {:ok, _index_live, html} = live(conn, ~p"/endgames")
+      {:ok, _index_live, html} = live(conn, ~p"/admin/endgames")
 
       assert html =~ "Listing Endgames"
       assert html =~ endgame.fen
     end
 
     test "saves new endgame", %{conn: conn} do
-      {:ok, index_live, _html} = live(conn, ~p"/endgames")
+      {:ok, index_live, _html} = live(conn, ~p"/admin/endgames")
 
       assert {:ok, form_live, _} =
                index_live
                |> element("a", "New Endgame")
                |> render_click()
-               |> follow_redirect(conn, ~p"/endgames/new")
+               |> follow_redirect(conn, ~p"/admin/endgames/new")
 
       assert render(form_live) =~ "New Endgame"
 
@@ -54,7 +54,7 @@ defmodule ChessTrainerWeb.EndgameLiveTest do
                form_live
                |> form("#endgame-form", endgame: @create_attrs)
                |> render_submit()
-               |> follow_redirect(conn, ~p"/endgames")
+               |> follow_redirect(conn, ~p"/admin/endgames")
 
       html = render(index_live)
       assert html =~ "Endgame created successfully"
@@ -62,13 +62,13 @@ defmodule ChessTrainerWeb.EndgameLiveTest do
     end
 
     test "updates endgame in listing", %{conn: conn, endgame: endgame} do
-      {:ok, index_live, _html} = live(conn, ~p"/endgames")
+      {:ok, index_live, _html} = live(conn, ~p"/admin/endgames")
 
       assert {:ok, form_live, _html} =
                index_live
                |> element("#endgames-#{endgame.id} a", "Edit")
                |> render_click()
-               |> follow_redirect(conn, ~p"/endgames/#{endgame}/edit")
+               |> follow_redirect(conn, ~p"/admin/endgames/#{endgame}/edit")
 
       assert render(form_live) =~ "Edit Endgame"
 
@@ -80,14 +80,14 @@ defmodule ChessTrainerWeb.EndgameLiveTest do
                form_live
                |> form("#endgame-form", endgame: @update_attrs)
                |> render_submit()
-               |> follow_redirect(conn, ~p"/endgames")
+               |> follow_redirect(conn, ~p"/admin/endgames")
 
       html = render(index_live)
       assert html =~ "Endgame updated successfully"
     end
 
     test "deletes endgame in listing", %{conn: conn, endgame: endgame} do
-      {:ok, index_live, _html} = live(conn, ~p"/endgames")
+      {:ok, index_live, _html} = live(conn, ~p"/admin/endgames")
 
       assert index_live |> element("#endgames-#{endgame.id} a", "Delete") |> render_click()
       refute has_element?(index_live, "#endgames-#{endgame.id}")
@@ -98,20 +98,20 @@ defmodule ChessTrainerWeb.EndgameLiveTest do
     setup [:create_endgame]
 
     test "displays endgame", %{conn: conn, endgame: endgame} do
-      {:ok, _show_live, html} = live(conn, ~p"/endgames/#{endgame}")
+      {:ok, _show_live, html} = live(conn, ~p"/admin/endgames/#{endgame}")
 
       assert html =~ "Show Endgame"
       assert html =~ endgame.fen
     end
 
     test "updates endgame and returns to show", %{conn: conn, endgame: endgame} do
-      {:ok, show_live, _html} = live(conn, ~p"/endgames/#{endgame}")
+      {:ok, show_live, _html} = live(conn, ~p"/admin/endgames/#{endgame}")
 
       assert {:ok, form_live, _} =
                show_live
                |> element("a", "Edit")
                |> render_click()
-               |> follow_redirect(conn, ~p"/endgames/#{endgame}/edit?return_to=show")
+               |> follow_redirect(conn, ~p"/admin/endgames/#{endgame}/edit?return_to=show")
 
       assert render(form_live) =~ "Edit Endgame"
 
@@ -123,7 +123,7 @@ defmodule ChessTrainerWeb.EndgameLiveTest do
                form_live
                |> form("#endgame-form", endgame: @update_attrs)
                |> render_submit()
-               |> follow_redirect(conn, ~p"/endgames/#{endgame}")
+               |> follow_redirect(conn, ~p"/admin/endgames/#{endgame}")
 
       html = render(show_live)
       assert html =~ "Endgame updated successfully"

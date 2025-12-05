@@ -8,7 +8,7 @@ defmodule ChessTrainer.EndgamesTest do
 
     import ChessTrainer.EndgamesFixtures
 
-    @invalid_attrs %{message: nil, result: nil, key: nil, fen: nil, notes: nil}
+    @invalid_attrs %{message: nil, result: nil, key: nil, fen: nil, notes: nil, rating: nil}
 
     test "list_endgames/0 returns all endgames" do
       endgame = endgame_fixture()
@@ -26,7 +26,8 @@ defmodule ChessTrainer.EndgamesTest do
         result: :draw,
         key: "some key",
         fen: "some fen",
-        notes: "some notes"
+        notes: "some notes",
+        rating: 1500
       }
 
       assert {:ok, %Endgame{} = endgame} = Endgames.create_endgame(valid_attrs)
@@ -49,7 +50,8 @@ defmodule ChessTrainer.EndgamesTest do
         result: :win,
         key: "some updated key",
         fen: "some updated fen",
-        notes: "some updated notes"
+        notes: "some updated notes",
+        rating: 1500
       }
 
       assert {:ok, %Endgame{} = endgame} = Endgames.update_endgame(endgame, update_attrs)
@@ -66,7 +68,8 @@ defmodule ChessTrainer.EndgamesTest do
         result: :draw,
         key: "some duplicate key",
         fen: "some duplicate fen",
-        notes: "some duplicate notes"
+        notes: "some duplicate notes",
+        rating: 1500
       }
 
       assert {:ok, %Endgame{} = endgame} = Endgames.create_endgame(valid_attrs)

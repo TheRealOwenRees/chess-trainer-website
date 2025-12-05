@@ -103,6 +103,6 @@ defmodule ChessTrainerWeb.EndgameLive.Form do
     end
   end
 
-  defp return_path("index", _endgame), do: ~p"/endgames"
-  defp return_path("show", endgame), do: ~p"/endgames/#{endgame}"
+  defp return_path("index", _endgame), do: ~p"/admin/endgames"
+  defp return_path("show", endgame), do: ~p"/admin/endgames/#{endgame}"
 end

@@ -28,10 +28,10 @@ defmodule ChessTrainerWeb.EndgameLive.Show do
         Endgame {@endgame.id}
         <:subtitle>This is a endgame record from your database.</:subtitle>
         <:actions>
-          <.button navigate={~p"/endgames"}>
+          <.button navigate={~p"/admin/endgames"}>
             <.icon name="hero-arrow-left" />
           </.button>
-          <.button variant="primary" navigate={~p"/endgames/#{@endgame}/edit?return_to=show"}>
+          <.button variant="primary" navigate={~p"/admin/endgames/#{@endgame}/edit?return_to=show"}>
             <.icon name="hero-pencil-square" /> Edit endgame
           </.button>
         </:actions>

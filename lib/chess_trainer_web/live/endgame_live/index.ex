@@ -10,7 +10,7 @@ defmodule ChessTrainerWeb.EndgameLive.Index do
       <.header>
         Listing Endgames
         <:actions>
-          <.button variant="primary" navigate={~p"/endgames/new"}>
+          <.button variant="primary" navigate={~p"/admin/endgames/new"}>
             <.icon name="hero-plus" /> New Endgame
           </.button>
         </:actions>
@@ -19,7 +19,7 @@ defmodule ChessTrainerWeb.EndgameLive.Index do
       <.table
         id="endgames"
         rows={@streams.endgames}
-        row_click={fn {_id, endgame} -> JS.navigate(~p"/endgames/#{endgame}") end}
+        row_click={fn {_id, endgame} -> JS.navigate(~p"/admin/endgames/#{endgame}") end}
       >
         <:col :let={{_id, endgame}} label="Fen">{endgame.fen}</:col>
         <:col :let={{_id, endgame}} label="Key">{endgame.key}</:col>
@@ -31,9 +31,9 @@ defmodule ChessTrainerWeb.EndgameLive.Index do
         <:col :let={{_id, endgame}} label="Solved">{endgame.times_solved}</:col>
         <:action :let={{_id, endgame}}>
           <div class="sr-only">
-            <.link navigate={~p"/endgames/#{endgame}"}>Show</.link>
+            <.link navigate={~p"/admin/endgames/#{endgame}"}>Show</.link>
           </div>
-          <.link navigate={~p"/endgames/#{endgame}/edit"}>Edit</.link>
+          <.link navigate={~p"/admin/endgames/#{endgame}/edit"}>Edit</.link>
         </:action>
         <:action :let={{id, endgame}}>
           <.link
