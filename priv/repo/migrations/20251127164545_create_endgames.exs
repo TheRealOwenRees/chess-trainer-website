@@ -5,6 +5,7 @@ defmodule ChessTrainer.Repo.Migrations.CreateEndgames do
     create table(:endgames, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :fen, :string
+      add :color, :string
       add :key, :string
       add :message, :text
       add :notes, :text

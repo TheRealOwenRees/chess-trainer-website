@@ -10,6 +10,7 @@ defmodule ChessTrainer.Endgames.Endgame do
   @foreign_key_type :binary_id
   schema "endgames" do
     field :fen, :string
+    field :color, Ecto.Enum, values: [:white, :black]
     field :key, :string
     field :message, :string
     field :notes, :string
@@ -25,8 +26,8 @@ defmodule ChessTrainer.Endgames.Endgame do
   @doc false
   def changeset(endgame, attrs) do
     endgame
-    |> cast(attrs, [:fen, :key, :message, :notes, :result, :rating])
-    |> validate_required([:fen, :key, :result, :rating])
+    |> cast(attrs, [:fen, :key, :message, :notes, :result, :rating, :color])
+    |> validate_required([:fen, :key, :result, :rating, :color])
     |> unique_constraint(:fen, message: "FEN already exists")
   end
 end

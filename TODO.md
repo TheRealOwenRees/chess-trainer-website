@@ -16,6 +16,8 @@
 - [ ] Add player colour for endgame based on FEN, auto populating DB
 - [ ] Fix liveview tests for navigation
 - [ ] Fix endgame tests
+- [ ] Fix color for endgame tests
+- [ ] validate FEN added into new endgame and check it is a valid endgame
 
 ## 📦 Medium Priority
 

@@ -21,7 +21,8 @@ Repo.insert_all(Endgame, [
   %{
     id: Ecto.UUID.generate(),
     fen: "8/8/3k4/8/8/3K1R2/8/8 w - - 0 1",
-    key: "KRvK",
+    color: :white,
+    key: "KR v K",
     message: "Rook vs king endgame",
     notes: "Basic rook endgame",
     result: :win,
@@ -31,7 +32,8 @@ Repo.insert_all(Endgame, [
   %{
     id: Ecto.UUID.generate(),
     fen: "6k1/5p2/6p1/8/7p/8/6PP/6K1 b - - 0 0",
-    key: "KPPPvKPP",
+    color: :black,
+    key: "KPPP v KPP",
     message: "3 pawns vs 2 pawns",
     notes: "https://www.chessgames.com/perl/chessgame?gid=1017147",
     result: :win,

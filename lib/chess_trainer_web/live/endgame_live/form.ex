@@ -1,6 +1,7 @@
 defmodule ChessTrainerWeb.EndgameLive.Form do
   use ChessTrainerWeb, :live_view
 
+  alias ChessTrainer.FEN
   alias ChessTrainer.Endgames
   alias ChessTrainer.Endgames.Endgame
 
@@ -15,6 +16,7 @@ defmodule ChessTrainerWeb.EndgameLive.Form do
 
       <.form for={@form} id="endgame-form" phx-change="validate" phx-submit="save">
         <.input field={@form[:fen]} type="text" label="Fen" disabled={@live_action == :edit} />
+        <.input field={@form[:color]} type="text" label="Color" disabled />
         <.input field={@form[:key]} type="text" label="Key" />
         <.input field={@form[:rating]} type="number" label="Rating" />
         <.input field={@form[:message]} type="textarea" label="Message" />
@@ -69,8 +71,19 @@ defmodule ChessTrainerWeb.EndgameLive.Form do
 
   @impl true
   def handle_event("validate", %{"endgame" => endgame_params}, socket) do
-    changeset = Endgames.change_endgame(socket.assigns.endgame, endgame_params)
-    {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
+    # Compute color from the incoming FEN
+    color = FEN.color_from_fen(endgame_params["fen"])
+
+    # Update the struct
+    endgame = %{socket.assigns.endgame | color: color}
+
+    # Build the changeset *from the updated struct*
+    changeset =
+      endgame
+      |> Endgames.change_endgame()
+      |> Ecto.Changeset.put_change(:color, color)
+
+    {:noreply, assign(socket, endgame: endgame, form: to_form(changeset, action: :validate))}
   end
 
   def handle_event("save", %{"endgame" => endgame_params}, socket) do
@@ -91,7 +104,10 @@ defmodule ChessTrainerWeb.EndgameLive.Form do
   end
 
   defp save_endgame(socket, :new, endgame_params) do
-    case Endgames.create_endgame(endgame_params) do
+    color = FEN.color_from_fen(endgame_params["fen"])
+    params = Map.put(endgame_params, "color", color)
+
+    case Endgames.create_endgame(params) do
       {:ok, endgame} ->
         {:noreply,
          socket

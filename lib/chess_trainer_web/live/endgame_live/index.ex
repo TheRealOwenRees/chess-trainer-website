@@ -22,6 +22,7 @@ defmodule ChessTrainerWeb.EndgameLive.Index do
         row_click={fn {_id, endgame} -> JS.navigate(~p"/admin/endgames/#{endgame}") end}
       >
         <:col :let={{_id, endgame}} label="Fen">{endgame.fen}</:col>
+        <:col :let={{_id, endgame}} label="Color">{endgame.color}</:col>
         <:col :let={{_id, endgame}} label="Key">{endgame.key}</:col>
         <:col :let={{_id, endgame}} label="Rating">{endgame.rating}</:col>
         <:col :let={{_id, endgame}} label="Message">{endgame.message}</:col>
