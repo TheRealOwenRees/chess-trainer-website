@@ -8,17 +8,27 @@ defmodule ChessTrainerWeb.EndgameLiveTest do
     message: "some message",
     result: :draw,
     key: "some key",
-    fen: "some fen",
-    notes: "some notes"
+    fen: "6k1/5p2/6p1/8/7p/8/6PP/6K1 b - - 0 0",
+    notes: "some notes",
+    rating: 1500
   }
   @update_attrs %{
     message: "some updated message",
     result: :win,
     key: "some updated key",
-    notes: "some updated notes"
+    fen: "6k1/5p2/6p1/8/7p/8/6PP/6K1 w - - 0 0",
+    notes: "some updated notes",
+    rating: 1600
   }
-  @invalid_create_attrs %{message: nil, result: "draw", key: nil, fen: "win", notes: nil}
-  @invalid_update_attrs %{message: nil, result: "draw", key: nil, notes: nil}
+  @invalid_create_attrs %{
+    message: nil,
+    result: "draw",
+    key: nil,
+    fen: "win",
+    notes: nil,
+    rating: nil
+  }
+  @invalid_update_attrs %{message: nil, result: "draw", key: nil, notes: nil, color: nil}
   defp create_endgame(_) do
     endgame = endgame_fixture()
 

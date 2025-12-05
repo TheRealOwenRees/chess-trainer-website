@@ -8,7 +8,15 @@ defmodule ChessTrainer.EndgamesTest do
 
     import ChessTrainer.EndgamesFixtures
 
-    @invalid_attrs %{message: nil, result: nil, key: nil, fen: nil, notes: nil, rating: nil}
+    @invalid_attrs %{
+      message: nil,
+      result: nil,
+      key: nil,
+      fen: nil,
+      notes: nil,
+      rating: nil,
+      color: nil
+    }
 
     test "list_endgames/0 returns all endgames" do
       endgame = endgame_fixture()
