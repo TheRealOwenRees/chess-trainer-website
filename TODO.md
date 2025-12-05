@@ -14,11 +14,14 @@
   - Move highlighting
   - opponent move auto-play - which move from moves list in tablebase? First? Random from all that are relevant?
 - [ ] Add player colour for endgame based on FEN, auto populating DB
+- [ ] Fix liveview tests for navigation
 
 ## 📦 Medium Priority
 
 - [ ] Key is a specific format eg KvKQ. Can we enforce this rule?
-- [ ] Rating column for endgame - set at 1500 initially
+- [ ] Endgames - RD, number of times attempted
+- [ ] current endgame endpoints to appear under admin endpoint
+- [ ] basic password auth for admin
 
 ## 🛠️ Low Priority
 
