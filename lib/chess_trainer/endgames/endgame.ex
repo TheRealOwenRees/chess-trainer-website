@@ -20,6 +20,10 @@ defmodule ChessTrainer.Endgames.Endgame do
     field :times_attempted, :integer
     field :times_solved, :integer
 
+    many_to_many :tags, ChessTrainer.Tags.Tag,
+      join_through: "endgames_tags",
+      on_replace: :delete
+
     timestamps(type: :utc_datetime)
   end
 
@@ -28,9 +32,9 @@ defmodule ChessTrainer.Endgames.Endgame do
     endgame
     |> cast(attrs, [:fen, :key, :message, :notes, :result, :rating, :color])
     |> validate_required([:fen, :color], message: "Invalid FEN")
-    |> validate_required([:fen, :key, :result, :rating, :color])
+    |> validate_required([:key, :result, :rating])
     |> validate_format(:key, ~r/^(?=.{5,10}$)KQ*R*[NB]*P*\sv\sKQ*R*[NB]*P*$/,
-      message: "Key must follow pattern KQ.. v KQR, max pieces 7"
+      message: "Key must follow pattern KQ.. v KQR.., max pieces 7"
     )
     |> unique_constraint(:fen, message: "FEN already exists")
   end

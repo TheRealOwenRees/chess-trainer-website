@@ -16,7 +16,7 @@
 - [ ] Fix liveview tests for navigation
 - [ ] Fix endgame tests
 - [ ] Fix color for endgame tests
-- [ ] validate FEN added into new endgame and check it is a valid endgame
+- [ ] validate FEN added into new endgame and check it is a valid endgame of 7 pieces max
 
 ## 📦 Medium Priority
 

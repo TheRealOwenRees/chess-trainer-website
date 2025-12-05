@@ -12,6 +12,7 @@
 
 alias ChessTrainer.Repo
 alias ChessTrainer.Endgames.Endgame
+alias ChessTrainer.Tags.Tag
 
 now = DateTime.utc_now() |> DateTime.truncate(:second)
 
@@ -43,3 +44,22 @@ Repo.insert_all(Endgame, [
 ])
 
 IO.puts("✅ Done seeding endgames.")
+
+IO.puts("🌱 Seeding endgame tags into DB...")
+
+Repo.insert_all(Tag, [
+  %{
+    name: "mate in 2",
+    category: :endgame,
+    inserted_at: now,
+    updated_at: now
+  },
+  %{
+    name: "mate in 3",
+    category: :endgame,
+    inserted_at: now,
+    updated_at: now
+  }
+])
+
+IO.puts("✅ Done seeding endgame tags.")

@@ -104,4 +104,20 @@ defmodule ChessTrainer.Endgames do
   def change_endgame(%Endgame{} = endgame, attrs \\ %{}) do
     Endgame.changeset(endgame, attrs)
   end
+
+  def add_tag(endgame, tag) do
+    endgame
+    |> Repo.preload(:tags)
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:tags, [tag | endgame.tags])
+    |> Repo.update()
+  end
+
+  def remove_tag(endgame, tag) do
+    endgame
+    |> Repo.preload(:tags)
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:tags, endgame.tags -- [tag])
+    |> Repo.update()
+  end
 end

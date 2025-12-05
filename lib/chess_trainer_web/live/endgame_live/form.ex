@@ -1,6 +1,8 @@
 defmodule ChessTrainerWeb.EndgameLive.Form do
   use ChessTrainerWeb, :live_view
 
+  alias ChessTrainer.Repo
+  alias ChessTrainer.Tags
   alias ChessTrainer.FEN
   alias ChessTrainer.Endgames
   alias ChessTrainer.Endgames.Endgame
@@ -19,6 +21,46 @@ defmodule ChessTrainerWeb.EndgameLive.Form do
         <.input field={@form[:color]} type="text" label="Color" disabled />
         <.input field={@form[:key]} type="text" label="Key" />
         <.input field={@form[:rating]} type="number" label="Rating" />
+        
+    <!-- ✅ TAG SELECTOR -->
+        <div class="field">
+          <label>Tags</label>
+          
+    <!-- Search box -->
+          <input
+            type="text"
+            name="tag_search"
+            value={@tag_query}
+            phx-change="search_tags"
+            autocomplete="off"
+          />
+          
+    <!-- Search results -->
+          <ul class="tag-results">
+            <%= for tag <- @tag_results do %>
+              <li phx-click="add_tag" phx-value-id={tag.id}>
+                {tag.name}
+              </li>
+            <% end %>
+
+            <%= if @tag_query != "" and @tag_results == [] do %>
+              <li phx-click="create_tag" phx-value-name={@tag_query}>
+                Create tag "{@tag_query}"
+              </li>
+            <% end %>
+          </ul>
+          
+    <!-- Selected tags -->
+          <div class="selected-tags">
+            <%= for tag <- @endgame.tags do %>
+              <span class="tag">
+                {tag.name}
+                <button type="button" phx-click="remove_tag" phx-value-id={tag.id}>×</button>
+              </span>
+            <% end %>
+          </div>
+        </div>
+
         <.input field={@form[:message]} type="textarea" label="Message" />
         <.input field={@form[:notes]} type="textarea" label="Notes" />
         <.input
@@ -57,6 +99,9 @@ defmodule ChessTrainerWeb.EndgameLive.Form do
     socket
     |> assign(:page_title, "Edit Endgame")
     |> assign(:endgame, endgame)
+    |> assign(:tag_query, "")
+    |> assign(:tag_results, [])
+    |> assign(:endgame, Repo.preload(endgame, :tags))
     |> assign(:form, to_form(Endgames.change_endgame(endgame)))
   end
 
@@ -66,10 +111,53 @@ defmodule ChessTrainerWeb.EndgameLive.Form do
     socket
     |> assign(:page_title, "New Endgame")
     |> assign(:endgame, endgame)
+    |> assign(:tag_query, "")
+    |> assign(:tag_results, [])
+    |> assign(:endgame, Repo.preload(endgame, :tags))
     |> assign(:form, to_form(Endgames.change_endgame(endgame)))
   end
 
   @impl true
+  def handle_event("search_tags", %{"tag_search" => query}, socket) do
+    tags = Tags.search(query, "endgame")
+
+    {:noreply,
+     socket
+     |> assign(:tag_query, query)
+     |> assign(:tag_results, tags)}
+  end
+
+  def handle_event("add_tag", %{"id" => id}, socket) do
+    tag = Tags.get_tag!(id)
+    {:ok, endgame} = Endgames.add_tag(socket.assigns.endgame, tag)
+
+    {:noreply,
+     socket
+     |> assign(:endgame, Repo.preload(endgame, :tags))
+     |> assign(:tag_query, "")
+     |> assign(:tag_results, [])}
+  end
+
+  def handle_event("create_tag", %{"name" => name}, socket) do
+    {:ok, tag} = Tags.get_or_create(name, "endgame")
+    {:ok, endgame} = Endgames.add_tag(socket.assigns.endgame, tag)
+
+    {:noreply,
+     socket
+     |> assign(:endgame, Repo.preload(endgame, :tags))
+     |> assign(:tag_query, "")
+     |> assign(:tag_results, [])}
+  end
+
+  def handle_event("remove_tag", %{"id" => id}, socket) do
+    tag = Tags.get_tag!(id)
+    {:ok, endgame} = Endgames.remove_tag(socket.assigns.endgame, tag)
+
+    {:noreply,
+     socket
+     |> assign(:endgame, Repo.preload(endgame, :tags))}
+  end
+
   def handle_event("validate", %{"endgame" => endgame_params}, socket) do
     # Compute color from the incoming FEN
     color = FEN.color_from_fen(endgame_params["fen"])
